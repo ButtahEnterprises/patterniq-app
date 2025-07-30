@@ -4,11 +4,20 @@ export default function ChatBox() {
   const [query, setQuery] = useState('')
   const [messages, setMessages] = useState<string[]>([])
 
-  const handleSubmit = () => {
-    if (!query) return
-    setMessages(prev => [...prev, `You: ${query}`, `AI: (response will appear here)`])
-    setQuery('')
-  }
+const handleSubmit = async () => {
+  if (!query) return
+  setMessages((prev) => [...prev, `You: ${query}`])
+  setQuery('')
+
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: query }),
+  })
+
+  const data = await res.json()
+  setMessages((prev) => [...prev, `AI: ${data.reply}`])
+}
 
   return (
     <div className="mt-6">

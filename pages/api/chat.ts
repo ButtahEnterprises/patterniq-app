@@ -1,5 +1,9 @@
 // pages/api/chat.ts
 
+if (req.method === 'GET') {
+  return res.status(200).json({ message: 'Chat API ready.' });
+}
+
 import { OpenAI } from 'openai';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
